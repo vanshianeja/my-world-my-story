@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My World, My Story</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- SCREEN 1: The Form -->
+     <div id="form-screen" class="screen active">
+
+        <div class="hero">
+            <h1 class="app-title">My World, My Story</h1>
+            <p class="app-subtitle">Tell us about yourself and your people. We'll write your story.</p>
+        </div>
+
+        <div class="form-card">
+
+            <!-- About You -->
+            <div class="section">
+                <h2 class="section-title">About you</h2>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Your name</label>
+                        <input type="text" id="name" placeholder="e.g. Vanshi">
+                    </div>
+                    <div class="input-group">
+                        <label>One word that describes you</label>
+                        <input type="text" id="descriptor" placeholder="e.g. Curious">
+                    </div>
+                </div>
+                <div class="input-group full">
+                    <label>One quirk or secret about yourself</label>
+                    <input type="text" id="quirk" placeholder="e.g. I talk to plants when stressed">
+                </div>
+            </div>
+
+            <!-- Characters -->
+             <div class="section">
+                <h2 class="section-title">Your cast of characters</h2>
+                <p class="section-hint">Add the people in your life - friends, rivals, family, anyone.</p>
+
+                <div id="characters-list">
+                    <!-- Characters will appear here -->
+                </div>
+
+                <button class="add-char-btn" onclick="addCharacter()">+ Add a character</button>
+             </div>
+
+             <!-- Mood -->
+              <div class="section">
+                <h2 class="section-title">Choose your vibe</h2>
+                <div class="pills" id="mood-pills">
+                    <span class="pill" onclick="selectPill(this, 'mood')">Bittersweet</span>
+                    <span class="pill" onclick="selectPill(this, 'mood')">Chaotic</span>
+                    <span class="pill" onclick="selectPill(this, 'mood')">Dreamy</span>
+                    <span class="pill" onclick="selectPill(this, 'mood')">Tense</span>
+                    <span class="pill" onclick="selectPill(this, 'mood')">Nostalgic</span>
+                    <span class="pill" onclick="selectPill(this, 'mood')">Hopeful</span>
+                </div>
+                <input type="text" id="custom-mood" placeholder="Or describe your own mood...">
+              </div>
+
+              <!-- Genre -->
+               <div class="section">
+                    <h2 class="section-title">Genre</h2>
+                    <div class="pills" id="genre-pills">
+                        <span class="pill" onclick="selectPill(this, 'genre')">Romcom</span>
+                        <span class="pill" onclick="selectPill(this, 'genre')">Suspense</span>
+                        <span class="pill" onclick="selectPill(this, 'genre')">Fantansy</span>
+                        <span class="pill" onclick="selectPill(this, 'genre')">Sci-Fi</span>
+                        <span class="pill" onclick="selectPill(this, 'genre')">Horror</span>
+                        <span class="pill" onclick="selectPill(this, 'genre')">Mystery</span>
+                    </div>
+               </div>
+
+               <!-- Narrator -->
+                <div class="section">
+                    <h2 class="section-title">Narrator voice</h2>
+                    <div class="pills" id="narrator-pills">
+                        <span class="pill" onclick="selectPill(this, 'narrator')">Dry & Witty</span>
+                        <span class="pill" onclick="selectPill(this, 'narrator')">Dramatic</span>
+                        <span class="pill" onclick="selectPill(this, 'narrator')">Warm & Gentle</span>
+                        <span class="pill" onclick="selectPill(this, 'narrator')">Suspenseful</span>
+                    </div>
+                </div>
+
+                <!-- Generate Button -->
+                <button class="generate-btn" onclick="generateStory()">
+                    Write my story ↗
+                </button>
+                <p class="lazy-link" onclick="surpriseMe()">I'm feeling lazy - just surprise me</p>
+
+        </div>
+     </div>
+
+    <!-- SCREEN 2: The Story -->
+    <div id="story-screen" class="screen">
+        <div class="story-header">
+            <button class="back-btn" onclick="goBack()">← Start over</button>
+            <div class="story-meta">
+                <span id="story-genre-tag" class="story-tag"></span>
+                <span id="story-mood-tag" class="story-tag"></span>
+            </div>
+        </div>
+
+        <div class="story-container">
+            <h2 class="story-title" id="story-title"></h2>
+            <div class="story-content" id="story-content"></div>
+        </div>
+
+        <!-- Action Buttons -->
+         <div class="action-row">
+            <button class="action-btn" onclick="plotTwist()">⚡ Plot twist</button>
+            <button class="action-btn" onclick="saveStory()">💾 Save story</button>
+         </div>
+
+        <!-- Continue Story -->
+        <div class="continue-box">
+           <p class="continue-label">What happens next?</p>
+           <div class="continue-row">
+               <input type="text" id="continue-input"
+                   placeholder='e.g. "Annie bursts in" or just "continue"'>
+               <button class="continue-btn" onclick="continueStory()">
+                   Next chapter ↗
+               </button>
+           </div>
+        </div>
+
+        <!-- Word Lookup -->
+        <div class="lookup-box">
+            <p class="continue-label">🔍 Look up a word</p>
+            <div class="continue-row">
+                <input type="text" id="lookup-input" placeholder="Type a word from the story...">
+                <button class="continue-btn" onclick="lookupWord()">Search</button>
+            </div>
+            <div id="lookup-result" class="lookup-result hidden"></div>
+        </div>
+
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading" class="loading hidden">
+        <div class="loading-card">
+            <div class="spinner"></div>
+            <p id="loading-text">Writing your story...</p>
+        </div> 
+
+    </div>
+
+    <script src="/static/script.js"></script>
+
+</body>
+</html>
