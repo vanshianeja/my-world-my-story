@@ -29,26 +29,31 @@
                         <input type="text" id="name" placeholder="e.g. Vanshi">
                     </div>
                     <div class="input-group">
-                        <label>One word that describes you</label>
-                        <input type="text" id="descriptor" placeholder="e.g. Curious">
+                        <label>How would you describe yourself?</label>
+                        <input type="text" id="descriptor" placeholder="e.g. Curious, stubborn, secretly kind">
                     </div>
                 </div>
                 <div class="input-group full">
                     <label>One quirk or secret about yourself</label>
                     <input type="text" id="quirk" placeholder="e.g. I talk to plants when stressed">
                 </div>
+                <div class="input-group full">
+                    <label>Any pre-details about your story? (optional)</label>
+                    <textarea id="predetails" placeholder="e.g. I want the story to start on a rainy night in college, and I want there to be a mystery involving a missing notebook..."></textarea>
+                </div>
             </div>
 
             <!-- Characters -->
              <div class="section">
                 <h2 class="section-title">Your cast of characters</h2>
-                <p class="section-hint">Add the people in your life - friends, rivals, family, anyone.</p>
+                <p class="section-hint">Add real people from your life - or let us invent them for you.</p>
 
-                <div id="characters-list">
-                    <!-- Characters will appear here -->
+                <div id="characters-list"></div>
+
+                <div class="char-buttons-row">
+                    <button class="add-char-btn" onclick="addCharacter()">+ Add a character</button>
+                    <button class="add-char-btn random-btn" onclick="addRandomCharacters()">🎲 Generate random characters</button>
                 </div>
-
-                <button class="add-char-btn" onclick="addCharacter()">+ Add a character</button>
              </div>
 
              <!-- Mood -->

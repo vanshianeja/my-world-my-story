@@ -44,6 +44,37 @@ function addCharacter() {
     list.appendChild(card);
 }
 
+// ==== RANDOM CHARACTER GENERATOR ====
+function addRandomCharacters() {
+    const randomChars = [
+        { name: "Aryan", role: "best friend", traits: "sarcastic, deeply loyal, terrible at giving advice" },
+        { name: "Meera", role: "rival", traits: "brilliant, competitive, secretly struggling" },
+        { name: "Kabir", role: "mysterious stranger", traits: "quiet, observant, knows more than he says" },
+        { name: "Riya", role: "childhood friend", traits: "loud, chaotic, always late, fiercely protective" },
+        { name: "Zara", role: "mentor", traits: "wise, blunt, has seen everything twice" },
+        { name: "Dev", role: "love interest", traits: "charming on the surface, complicated underneath" },
+        { name: "Nisha", role: "roomate", traits: "practical, dry humor, secretly romantic" },
+        { name: "Rohan", role: "ex", traits: "not a villain, just complicated, still around" }
+    ];
+    
+    // Pick 2 random characters
+    const shuffled = randomChars.sort(() => 0.5 - Math.random());
+    const picked = shuffled.slice(0, 2);
+
+    picked.forEach(char => {
+        const list = document.getElementById("characters-list");
+        const card = document.createElement("div");
+        card.className = "character-card";
+        card.innerHTML = `
+            <input type="text" placeholder="Name" class="char-name" value="${char.name}">
+            <input type="text" placeholder="Role" class="char-role" value="${char.role}">
+            <input type="text" placeholder="Traits" class="char-traits" value="${char.traits}">
+            <button class="remove-char-btn" onclick="this.parentElement.remove()">✕</button>
+        `;
+        list.appendChild(card);
+    });
+}
+
 // ==== COLLECT CHARACTERS ==== 
 function getCharacters() {
     const cards = document.querySelectorAll(".character-card");
@@ -97,11 +128,13 @@ function displayStory(storyText, name, genre, mood) {
 }
 
 // ==== GENERATE STORY ====
+console.log("predetails element:", document.getElementById("predetails"));
 async function generateStory() {
     const name = document.getElementById("name").value.trim();
     const quirk = document.getElementById("quirk").value.trim();
-    const mood = selections.mood ||
-        document.getElementById("custom-mood").value.trim();
+    const predetails = document.getElementById("predetails").value.trim();
+    const customMoodEl = document.getElementById("custom-mood");
+    const mood = selections.mood || (customMoodEl ? customMoodEl.value.trim() : "");
     const genre = selections.genre;
     const narrator = selections.narrator;
     const characters = getCharacters();
@@ -110,7 +143,6 @@ async function generateStory() {
     if (!name) { alert("Please enter your name!"); return; }
     if (!genre) { alert("Please select your genre!"); return; }
     if (!mood) { alert("Please select or describe your mood!"); return; }
-    if (!narrator) { alert("Please select a narrator voice!"); return; }
 
     showLoading("Writing your story...");
 
@@ -118,7 +150,7 @@ async function generateStory() {
         const response = await fetch("/generate", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, quirk, characters, mood, genre, narrator })
+            body: JSON.stringify({ name, quirk, predetails, characters, mood, genre, narrator })
         });
 
         const data = await response.json();

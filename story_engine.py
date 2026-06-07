@@ -23,7 +23,7 @@ def call_ai(prompt):
     data = response.json()
     return data["choices"][0]["message"]["content"]
 
-def build_prompt(name, quirk, characters, mood, genre, narrator):
+def build_prompt(name, quirk, characters, mood, genre, narrator, predetails=""):
     character_list = ""
     for char in characters:
         character_list += f"- {char['name']} ({char['role']}): {char['traits']}\n"
@@ -48,13 +48,14 @@ RULES:
 - Write at least 500 words
 - Do not use chapter title or headings, just pure prose
 
-Begin the story now."""
+{f"ADDITIONAL DETAILS THE USER WANTS INCLUDED:{chr(10)}{predetails}{chr(10)}{chr(10)}" if predetails else ""}Begin the story now."""
     
     return prompt
 
-def generate_story(name, quirk, characters, mood, genre, narrator):
-    prompt = build_prompt(name, quirk, characters, mood, genre, narrator)
-    return call_ai(prompt)
+def generate_story(name, quirk, characters, mood, genre, narrator, predetails=""):
+    prompt = build_prompt(name, quirk, characters, mood, genre, narrator, predetails)
+    response = call_ai(prompt)
+    return response
         
 
 def continue_story(existing_story, user_direction):

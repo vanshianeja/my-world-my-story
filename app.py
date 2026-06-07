@@ -18,8 +18,9 @@ def generate():
     mood = data["mood"]
     genre = data["genre"]
     narrator = data["narrator"]
+    predetails = data.get("predetails", "")
 
-    story = generate_story(name, quirk, characters, mood, genre, narrator)
+    story = generate_story(name, quirk, characters, mood, genre, narrator, predetails)
     return jsonify({"story": story})
 
 @app.route("/continue", methods=["POST"])
