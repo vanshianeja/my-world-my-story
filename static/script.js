@@ -21,6 +21,7 @@ const selections = {mood: "", genre: "", narrator: "" };
 
 // Track full story so far
 let fullStory = "";
+let chapterHistory = [];
 
 // ==== PILL SELECTION ====
 function selectPill(pill, group) {
@@ -125,6 +126,7 @@ function displayStory(storyText, name, genre, mood) {
     document.getElementById("story-mood-tag").textContent = mood;
 
     fullStory = storyText;
+    chapterHistory = [{ html: html, story: storyText }]; // reset history on new story
 }
 
 // ==== GENERATE STORY ====
@@ -231,6 +233,7 @@ async function continueStory() {
         
         newContent.innerHTML += divider + newParagraphs;
         fullStory += "\n\n" + data.story;
+        chapterHistory.push({ html: newContent.innerHTML, story: fullStory });
         document.getElementById("continue-input").value = "";
         window.scrollTo(0, document.body.scrollHeight);
 
@@ -264,6 +267,7 @@ async function plotTwist() {
 
     newContent.innerHTML += divider + newParagraphs;
     fullStory += "\n\n" + data.story;
+    chapterHistory.push({ html: newContent.innerHTML, story: fullStory });
     window.scrollTo(0, document.body.scrollHeight);
     
     } catch (error) {
@@ -271,6 +275,18 @@ async function plotTwist() {
     } finally {
         hideLoading();
     }
+}
+
+// ===== UNDO LAST CHAPTER =====
+function undoChapter() {
+    if (chapterHistory.length <= 1) {
+        alert("Nothing to undo — you're at the beginning of the story!");
+        return;
+    }
+    chapterHistory.pop(); // remove current
+    const previous = chapterHistory[chapterHistory.length - 1];
+    document.getElementById("story-content").innerHTML = previous.html;
+    fullStory = previous.story;
 }
 
 // ==== WORD LOOKUP ====
