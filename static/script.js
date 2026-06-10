@@ -109,6 +109,13 @@ function showStoryScreen() {
 }
 
 function goBack() {
+    const confirmed = confirm("Are you sure you want to start over? Your current story will be lost unless you saved it.");
+    if (!confirmed) return;
+    
+    // Reset everything
+    fullStory = "";
+    chapterHistory = [];
+    document.getElementById("story-content").innerHTML = "";
     document.getElementById("story-screen").classList.remove("active");
     document.getElementById("form-screen").classList.add("active");
     window.scrollTo(0, 0);
