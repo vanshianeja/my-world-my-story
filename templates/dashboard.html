@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — My World, My Story</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">☀️ Light mode</button>
+
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <div>
+                <h1 class="app-title">My World, My Story</h1>
+                <p class="app-subtitle">Welcome back, {{ user_name }}.</p>
+            </div>
+            <div class="dashboard-actions">
+                <a href="/app" class="generate-btn dashboard-new-btn">+ New story</a>
+                <a href="/logout" class="back-btn">Sign out</a>
+            </div>
+        </div>
+
+        {% if stories %}
+        <div class="stories-grid">
+            {% for story in stories %}
+            <div class="story-card-dash">
+                <div class="story-card-top">
+                    <div class="story-card-tags">
+                        <span class="story-tag">{{ story.genre }}</span>
+                        <span class="story-tag">{{ story.mood }}</span>
+                    </div>
+                    <form method="POST" action="/delete_story/{{ story.id }}"
+                          onsubmit="return confirm('Delete this story permanently?')">
+                        <button type="submit" class="remove-char-btn">><</button>
+                    </form>
+                </div>
+                <h3 class="story-card-title">{{ story.title }}</h3>
+                <p class="story-card-preview">
+                    {{ story.full_content[:150] }}...
+                </p>
+                <p class="story-card-date">{{ story.created_at[:10] }}</p>
+                <a href="/story/{{ story.id }}" class="continue-story-btn">Continue reading →</a>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p class="empty-title">No stories yet.</p>
+            <p class="empty-sub">Start your first story and it will appear here.</p>
+            <a href="/app" class="generate-btn empty-btn">Write my first story ↗</a>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle("light");
+            const isLight = document.body.classList.contains("light");
+            localStorage.setItem("theme", isLight ? "light" : "dark");
+            document.getElementById("theme-btn").textContent = isLight ? "🌙 Dark mode" : "☀️ Light mode";
+        }
+        if (localStorage.getItem("theme") === "light") {
+            document.body.classList.add("light");
+            document.getElementById("theme-btn").textContent = "🌙 Dark mode";
+        }
+    </script>
+</body>
+</html>

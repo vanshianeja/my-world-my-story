@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — My World, My Story</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">☀️ Light mode</button>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <h1 class="app-title">My World, My Story</h1>
+            <p class="app-subtitle">Welcome back. Your stories are waiting.</p>
+
+            {% if error %}
+            <div class="auth-error">{{ error }}</div>
+            {% endif %}
+
+            <form method="POST" action="/login">
+                <div class="input-group full">
+                    <label>Email</label>
+                    <input type="email" name="email" placeholder="your@email.com" required>
+                </div>
+                <div class="input-group full">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="generate-btn">Sign in ↗</button>
+            </form>
+
+            <p class="auth-switch">Don't have an account? <a href="/signup">Sign up</a></p>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle("light");
+            const isLight = document.body.classList.contains("light");
+            localStorage.setItem("theme", isLight ? "light" : "dark");
+            document.getElementById("theme-btn").textContent = isLight ? "🌙 Dark mode" : "☀️ Light mode";
+        }
+        if (localStorage.getItem("theme") === "light") {
+            document.body.classList.add("light");
+            document.getElementById("theme-btn").textContent = "🌙 Dark mode";
+        }
+    </script>
+</body>
+</html>

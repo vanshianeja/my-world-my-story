@@ -21,6 +21,7 @@ const selections = {mood: "", genre: "", narrator: "" };
 
 // Track full story so far
 let fullStory = "";
+let currentStoryId = null;
 let chapterHistory = [];
 
 // ==== PILL SELECTION ====
@@ -163,6 +164,7 @@ async function generateStory() {
         });
 
         const data = await response.json();
+        currentStoryId = data.story_id;
         displayStory(data.story, name, genre, mood);
         showStoryScreen();
 
@@ -341,3 +343,13 @@ function saveStory() {
     a.click();
     URL.revokeObjectURL(url);
 }
+
+// ===== LOAD EXISTING STORY IF COMING FROM DASHBOARD =====
+window.addEventListener("load", function() {
+    if (window.preloadStory) {
+        const s = window.preloadStory;
+        currentStoryId = window.preloadStoryId;
+        displayStory(s.full_content, s.title.replace("'s Story", ""), s.genre, s.mood);
+        showStoryScreen();
+    }
+});

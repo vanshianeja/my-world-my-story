@@ -159,6 +159,13 @@
 
     </div>
 
+    {% if preload_story %}
+    <script>
+        window.preloadStory = {{ preload_story | tojson }};
+        window.preloadStoryId = {{ story_id }};
+    </script>
+    {% endif %}
+
     <script src="/static/script.js"></script>
 
 </body>
