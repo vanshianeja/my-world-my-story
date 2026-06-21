@@ -344,6 +344,15 @@ function saveStory() {
     URL.revokeObjectURL(url);
 }
 
+// ===== DOWNLOAD AS PDF =====
+function downloadPDF() {
+    if (!currentStoryId) {
+        alert("Please generate a story first, then save it to download as PDF.");
+        return;
+    }
+    window.location.href = `/download_pdf/${currentStoryId}`;
+}
+
 // ===== LOAD EXISTING STORY IF COMING FROM DASHBOARD =====
 window.addEventListener("load", function() {
     if (window.preloadStory) {

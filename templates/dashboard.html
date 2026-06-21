@@ -42,6 +42,7 @@
                 </p>
                 <p class="story-card-date">{{ story.created_at[:10] }}</p>
                 <a href="/story/{{ story.id }}" class="continue-story-btn">Continue reading →</a>
+                <a href="/download_pdf/{{ story.id }}" class="continue-story-btn download-btn">📄 Download PDF</a>
             </div>
             {% endfor %}
         </div>

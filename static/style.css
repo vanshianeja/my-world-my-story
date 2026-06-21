@@ -738,3 +738,15 @@ textarea::placeholder {
 .continue-story-btn:hover {
     background: var(--accent-soft);
 }
+
+.download-btn {
+    margin-left: 0.5rem;
+    color: var(--text-muted) !important;
+    border-color: var(--border) !important;
+}
+
+.download-btn:hover {
+    color: var(--text-primary) !important;
+    border-color: var(--border) !important;
+    background: var(--bg-input) !important;
+}

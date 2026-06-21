@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from story_engine import generate_story, continue_story
 from word_lookup import lookup_word
 from database import get_db, init_db
+from pdf_generator import generate_pdf
 import os
 
 app = Flask(__name__)
@@ -191,6 +192,37 @@ def delete_story(story_id):
     db.close()
 
     return redirect(url_for("dashboard"))
+
+@app.route("/download_pdf/<int:story_id>")
+def download_pdf(story_id):
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+    
+    db = get_db()
+    story = db.execute(
+        "SELECT * FROM stories WHERE id = ? AND user_id = ?",
+        (story_id, session["user_id"])
+    ).fetchone()
+    db.close()
+    
+    if not story:
+        return redirect(url_for("dashboard"))
+    
+    pdf_bytes = generate_pdf(
+        story["title"],
+        story["genre"],
+        story["mood"],
+        story["full_content"]
+    )
+    
+    from flask import Response
+    return Response(
+        pdf_bytes,
+        mimetype="application/pdf",
+        headers={
+            "Content-Disposition": f"attachment; filename={story['title']}.pdf"
+        }
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
