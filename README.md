@@ -77,3 +77,20 @@ my-world-my-story/
 
 └── script.js
 
+## Screenshots
+
+**Login**
+![Login](static/screenshots/login.png)
+
+**Dashboard**
+![Dashboard](static/screenshots/dashboard.png)
+
+**Story Form**
+![Form Top](static/screenshots/form-top.png)
+
+**Story Screen**
+![Story](static/screenshots/story.png)
+
+---
+
+Built with Python, Flask and a lot of late nights.
