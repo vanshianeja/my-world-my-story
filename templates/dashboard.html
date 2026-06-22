@@ -26,7 +26,12 @@
         <div class="stories-grid">
             {% for story in stories %}
             <div class="story-card-dash">
-                <div class="story-card-top">
+                <div class="story-cover-wrapper">
+                    <img src="/story_cover/{{ story.id }}" 
+                         alt="Story cover" 
+                         class="story-cover-img">
+                </div>
+                <div class="story-card-top" style="margin-top: 0.75rem;">
                     <div class="story-card-tags">
                         <span class="story-tag">{{ story.genre }}</span>
                         <span class="story-tag">{{ story.mood }}</span>

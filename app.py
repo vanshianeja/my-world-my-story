@@ -4,6 +4,7 @@ from story_engine import generate_story, continue_story
 from word_lookup import lookup_word
 from database import get_db, init_db
 from pdf_generator import generate_pdf
+from cover_generator import generate_cover
 import os
 
 app = Flask(__name__)
@@ -223,6 +224,30 @@ def download_pdf(story_id):
             "Content-Disposition": f"attachment; filename={story['title']}.pdf"
         }
     )
+
+@app.route("/story_cover/<int:story_id>")
+def story_cover(story_id):
+    if "user_id" not in session:
+        return "", 401
+    
+    db = get_db()
+    story = db.execute(
+        "SELECT * FROM stories WHERE id = ? AND user_id = ?",
+        (story_id, session["user_id"])
+    ).fetchone()
+    db.close()
+    
+    if not story:
+        return "", 404
+    
+    svg = generate_cover(
+        story["genre"] or "Fantasy",
+        story["mood"] or "Dreamy",
+        story["title"]
+    )
+    
+    from flask import Response
+    return Response(svg, mimetype="image/svg+xml")
 
 if __name__ == "__main__":
     app.run(debug=True)

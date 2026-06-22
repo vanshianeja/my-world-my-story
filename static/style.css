@@ -750,3 +750,18 @@ textarea::placeholder {
     border-color: var(--border) !important;
     background: var(--bg-input) !important;
 }
+
+/* ===== STORY COVERS ===== */
+.story-cover-wrapper {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.story-cover-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+}
