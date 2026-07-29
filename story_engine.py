@@ -8,20 +8,33 @@ API_KEY = os.getenv("OPENROUTER_API_KEY")
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
 MODEL = "google/gemma-4-31b-it:free"
 
+MODELS = [
+    "google/gemma-4-31b-it:free",
+    "google/gemma-4-26b-a4b-it:free",
+    "mistralai/devstral-small:free",
+    "qwen/qwen3-8b:free",
+]
+
 def call_ai(prompt):
     headers = {
         "Authorization": f"Bearer {API_KEY}",
         "Content-Type": "application/json"
     }
-    body = {
-        "model": MODEL,
-        "messages": [
-            {"role": "user", "content": prompt}
-        ]
-    }
-    response = requests.post(API_URL, headers=headers, json=body)
-    data = response.json()
-    return data["choices"][0]["message"]["content"]
+    
+    for model in MODELS:
+        body = {
+            "model": model,
+            "messages": [
+                {"role": "user", "content": prompt}
+            ]
+        }
+        response = requests.post(API_URL, headers=headers, json=body)
+        data = response.json()
+        
+        if "choices" in data:
+            return data["choices"][0]["message"]["content"]
+    
+    return "Sorry, all AI models are currently busy. Please try again in a moment."
 
 def build_prompt(name, quirk, characters, mood, genre, narrator, predetails=""):
     character_list = ""
