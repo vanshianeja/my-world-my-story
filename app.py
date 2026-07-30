@@ -111,7 +111,7 @@ def generate():
     narrator = data["narrator"]
     predetails = data.get("predetails", "")
 
-    story = generate_story(name, quirk, characters, mood, genre, narrator, predetails)
+    story, title = generate_story(name, quirk, characters, mood, genre, narrator, predetails)
 
     # Auto-save story to database
     db = get_db()
@@ -124,7 +124,7 @@ def generate():
     db.commit()
     db.close()
 
-    return jsonify({"story": story, "story_id": story_id})
+    return jsonify({"story": story, "story_id": story_id, "title": title})
 
 @app.route("/continue", methods=["POST"])
 def continue_chapter():

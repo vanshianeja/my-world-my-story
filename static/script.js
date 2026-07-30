@@ -128,7 +128,7 @@ function displayStory(storyText, name, genre, mood) {
     const paragraphs = storyText.split("\n").filter(p => p.trim() !== "");
     const html = paragraphs.map(p => `<p>${p}</p>`).join("");
 
-    document.getElementById("story-title").textContent = `${name}'s Story`;
+    document.getElementById("story-title").textContent = name;
     document.getElementById("story-content").innerHTML = html;
     document.getElementById("story-genre-tag").textContent = genre;
     document.getElementById("story-mood-tag").textContent = mood;
@@ -165,7 +165,8 @@ async function generateStory() {
 
         const data = await response.json();
         currentStoryId = data.story_id;
-        displayStory(data.story, name, genre, mood);
+        const storyTitle = data.title || `${name}'s Story`;
+        displayStory(data.story, storyTitle, genre, mood);
         showStoryScreen();
 
     } catch (error) {

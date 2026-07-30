@@ -65,11 +65,30 @@ RULES:
     
     return prompt
 
+def generate_title(story_text, genre, mood):
+    prompt = f"""Based on this story excerpt, generate a short, evocative, literary title.
+
+GENRE: {genre}
+MOOD: {mood}
+STORY EXCERPT: {story_text[:500]}
+
+Rules:
+- 2 to 5 words maximum
+- Should feel like a real novel title
+- Mysterious, poetic, or intriguing
+- Do NOT use the protagonist's name
+- Return ONLY the title, nothing else, no quotes, no explanation
+
+Examples of good titles: The Midnight Theory, Last Train to Nowhere, What the Rain Remembers, Letters She Never Sent"""
+
+    return call_ai(prompt)
+
+
 def generate_story(name, quirk, characters, mood, genre, narrator, predetails=""):
     prompt = build_prompt(name, quirk, characters, mood, genre, narrator, predetails)
-    response = call_ai(prompt)
-    return response
-        
+    story = call_ai(prompt)
+    title = generate_title(story, genre, mood)
+    return story, title
 
 def continue_story(existing_story, user_direction):
     prompt = f"""Here is a story so far:
