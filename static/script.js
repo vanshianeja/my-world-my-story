@@ -123,12 +123,12 @@ function goBack() {
 }
 
 // ==== DISPLAY STORY ====
-function displayStory(storyText, name, genre, mood) {
+function displayStory(storyText, title, genre, mood) {
     // Split into paragraphs and wrap each in <p> tags
     const paragraphs = storyText.split("\n").filter(p => p.trim() !== "");
     const html = paragraphs.map(p => `<p>${p}</p>`).join("");
 
-    document.getElementById("story-title").textContent = name;
+    document.getElementById("story-title").textContent = title;
     document.getElementById("story-content").innerHTML = html;
     document.getElementById("story-genre-tag").textContent = genre;
     document.getElementById("story-mood-tag").textContent = mood;
@@ -164,6 +164,8 @@ async function generateStory() {
         });
 
         const data = await response.json();
+        console.log("API response:", data);
+        console.log("Title received:", data.title);
         currentStoryId = data.story_id;
         const storyTitle = data.title || `${name}'s Story`;
         displayStory(data.story, storyTitle, genre, mood);
@@ -359,7 +361,7 @@ window.addEventListener("load", function() {
     if (window.preloadStory) {
         const s = window.preloadStory;
         currentStoryId = window.preloadStoryId;
-        displayStory(s.full_content, s.title.replace("'s Story", ""), s.genre, s.mood);
+        displayStory(s.full_content, s.title, s.genre, s.mood);
         showStoryScreen();
     }
 });

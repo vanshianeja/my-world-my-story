@@ -112,13 +112,14 @@ def generate():
     predetails = data.get("predetails", "")
 
     story, title = generate_story(name, quirk, characters, mood, genre, narrator, predetails)
+    print(f"Generated title: {title}")
 
     # Auto-save story to database
     db = get_db()
     cursor = db.execute(
         """INSERT INTO stories (user_id, title, genre, mood, narrator, full_content)
            VALUES (?, ?, ?, ?, ?, ?)""",
-        (session["user_id"], f"{name}'s Story", genre, mood, narrator, story)
+        (session["user_id"], title, genre, mood, narrator, story)
     )
     story_id = cursor.lastrowid
     db.commit()
