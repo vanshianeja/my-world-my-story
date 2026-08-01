@@ -71,21 +71,23 @@ python app.py
 Open `http://127.0.0.1:5000`
 
 ## 📁 Project Structure
+```
 my-world-my-story/
-├── app.py # Flask server and all routes
-├── story_engine.py # AI story generation + multi-model fallback
-├── word_lookup.py # Dictionary API integration
-├── pdf_generator.py # PDF export
-├── cover_generator.py # SVG story cover generator
-├── database.py # SQLite database setup
+├── app.py               # Flask server and all routes
+├── story_engine.py      # AI story generation + multi-model fallback
+├── word_lookup.py       # Dictionary API integration
+├── pdf_generator.py     # PDF export
+├── cover_generator.py   # SVG story cover generator
+├── database.py          # SQLite database setup
 ├── templates/
-│ ├── index.html # Main story app
-│ ├── login.html # Login page
-│ ├── signup.html # Signup page
-│ └── dashboard.html # Personal dashboard
+│   ├── index.html       # Main story app
+│   ├── login.html       # Login page
+│   ├── signup.html      # Signup page
+│   └── dashboard.html   # Personal dashboard
 └── static/
-├── style.css
-└── script.js
+    ├── style.css
+    └── script.js
+```
 
 ## 📸 Screenshots
 
@@ -99,8 +101,7 @@ my-world-my-story/
 ![Form](static/screenshots/form.png)
 
 **Story Screen**
-![Story-top](static/screenshots/story_top.png)
-![Story-bottom](static/screenshots/story_bottom.png)
+![Story](static/screenshots/story_top.png)
 
 ---
 
